@@ -11,17 +11,26 @@ data <- read.csv(file = "data/data.csv", sep = ",")
 
 # sensory test data
 sensory_data <- data %>%
-  select(treatment, info, sex, ID, rating_sensory, sensory_property) %>%
-  drop_na()
-glimpse(sensory_data)
+  drop_na(rating_sensory) %>% 
+  select(sensory_property, treatment, info, sex ,ID,rating_sensory) %>% 
+  mutate(rating_sensory = as.ordered(rating_sensory),
+         sensory_property = as.factor(sensory_property),
+         treatment = as.factor(treatment),
+         info = as.factor(info),
+         sex = as.factor(sex),
+         ID = as.factor(ID)) 
 
 # willingness for purchase data
 purchase_data <- data %>%
-  select(treatment, info, sex, ID, rating_purchase) %>%
-  drop_na()
-glimpse(purchase_data)
+  drop_na(rating_purchase) %>% 
+  select( treatment, info, sex ,ID, rating_purchase) %>% 
+  mutate(rating_purchase = as.ordered(rating_purchase),
+         treatment = factor(treatment),
+         info = factor(info),
+         sex = factor(sex),
+         ID = factor(ID))
 
-rm(data)
+rm(data); str(purchase_data); str(sensory_data)
 
 # BOMRM - sensory test data -----------------------------------------------
 
